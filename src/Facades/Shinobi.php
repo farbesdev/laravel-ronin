@@ -1,6 +1,8 @@
 <?php
 
-namespace Caffeinated\Shinobi\Facades;
+declare(strict_types=1);
+
+namespace Laravel\Ronin\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

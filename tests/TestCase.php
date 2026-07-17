@@ -1,13 +1,16 @@
 <?php
 
-namespace Caffeinated\Shinobi\Tests;
+declare(strict_types=1);
+
+namespace Laravel\Ronin\Tests;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\View;
-use Caffeinated\Shinobi\Facades\Shinobi;
+use PHPUnit\Framework\Attributes\Test;
+use Laravel\Ronin\Facades\Shinobi;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Caffeinated\Shinobi\ShinobiServiceProvider;
+use Laravel\Ronin\ShinobiServiceProvider;
 
 abstract class TestCase extends Orchestra
 {

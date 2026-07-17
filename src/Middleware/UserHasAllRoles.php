@@ -1,16 +1,19 @@
 <?php
 
-namespace Caffeinated\Shinobi\Middleware;
+declare(strict_types=1);
+
+namespace Laravel\Ronin\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Contracts\Auth\Guard;
+use Laravel\Ronin\Events\AccessDenied;
+use Illuminate\Support\Facades\Event;
 
 class UserHasAllRoles
 {
-    /**
-     * @var Illuminate\Contracts\Auth\Guard
-     */
-    protected $auth;
+    protected Guard $auth;
 
     /**
      * Create a new UserHasPermission instance.
@@ -26,24 +29,50 @@ class UserHasAllRoles
      * Run the request filter.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Closure                 $closure
-     * @param string                   $role
+     * @param \Closure                 $next
+     * @param mixed                    ...$roles
      *
      * @return mixed
      */
-    public function handle($request, Closure $next, ...$roles)
+    public function handle($request, Closure $next, mixed ...$roles): mixed
     {
-        $roles      = call_user_func_array('array_merge', $roles);
-        $authorized = call_user_func_array([$this->auth->user(), 'hasAllRoles'], $roles);
+        $user = $this->auth->user();
+        $roles = $this->normalizeRoles($roles);
+        $authorized = false;
+
+        if ($user && method_exists($user, 'hasAllRoles')) {
+            $authorized = $user->hasAllRoles(...$roles);
+        }
 
         if (! $authorized) {
+            // [A09] Dispatch security event for audit logging
+            Event::dispatch(new AccessDenied(
+                user: $user,
+                requiredAccess: implode('&', $roles),
+                method: $request->method(),
+                uri: $request->path(),
+                ip: $request->ip(),
+            ));
+
+            // [A01] 401 = unauthenticated guest | 403 = authenticated but forbidden
+            $statusCode = $user ? 403 : 401;
+
             if ($request->ajax()) {
-                return response('Unauthorized.', 401);
+                return response('Unauthorized.', $statusCode);
             }
 
-            return abort(401);
+            return abort($statusCode);
         }
 
         return $next($request);
+    }
+
+    protected function normalizeRoles(array $roles): array
+    {
+        if (count($roles) === 1 && is_array($roles[0])) {
+            return Arr::flatten($roles[0]);
+        }
+
+        return Arr::flatten($roles);
     }
 }

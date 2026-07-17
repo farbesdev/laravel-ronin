@@ -1,6 +1,8 @@
 <?php
 
-namespace Caffeinated\Shinobi\Concerns;
+declare(strict_types=1);
+
+namespace Laravel\Ronin\Concerns;
 
 trait HasRolesAndPermissions
 {
@@ -10,7 +12,7 @@ trait HasRolesAndPermissions
      * Run through the roles assigned to the permission and
      * checks if the user has any of them assigned.
      * 
-     * @param  \Caffeinated\Shinobi\Models\Permission  $permission
+     * @param  \Laravel\Ronin\Models\Permission  $permission
      * @return boolean
      */
     protected function hasPermissionThroughRole($permission): bool

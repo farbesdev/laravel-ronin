@@ -1,13 +1,16 @@
 <?php
 
-namespace Caffeinated\Shinobi\Tests;
+declare(strict_types=1);
 
-use Caffeinated\Shinobi\Tests\User;
-use Caffeinated\Shinobi\Exceptions\PermissionNotFoundException;
+namespace Laravel\Ronin\Tests;
+
+use Laravel\Ronin\Tests\User;
+use Laravel\Ronin\Exceptions\PermissionNotFoundException;
+use PHPUnit\Framework\Attributes\Test;
 
 class PermissionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function a_non_existant_permission_should_throw_an_exception()
     {
         $this->expectException(PermissionNotFoundException::class);

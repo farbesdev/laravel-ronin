@@ -1,17 +1,20 @@
 <?php
 
-namespace Caffeinated\Shinobi\Tests;
+declare(strict_types=1);
 
-use Caffeinated\Shinobi\Models\Role;
-use Caffeinated\Shinobi\Tests\TestCase;
-use Caffeinated\Shinobi\Models\Permission;
+namespace Laravel\Ronin\Tests;
+
+use Laravel\Ronin\Models\Role;
+use Laravel\Ronin\Tests\TestCase;
+use Laravel\Ronin\Models\Permission;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 
 class RoleTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    #[Test]
     public function it_can_be_given_a_permission()
     {
         $role       = factory(Role::class)->create();
@@ -24,7 +27,7 @@ class RoleTest extends TestCase
         $this->assertCount(1, $role->fresh()->permissions);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_be_given_a_permission_by_slug()
     {
         $role       = factory(Role::class)->create();
@@ -37,7 +40,7 @@ class RoleTest extends TestCase
         $this->assertCount(1, $role->fresh()->permissions);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_be_given_multiple_permissions()
     {
         $role        = factory(Role::class)->create();
@@ -50,7 +53,7 @@ class RoleTest extends TestCase
         $this->assertCount(5, $role->fresh()->permissions);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_be_given_multiple_permissions_by_slug()
     {
         $role        = factory(Role::class)->create();
@@ -63,7 +66,7 @@ class RoleTest extends TestCase
         $this->assertCount(5, $role->fresh()->permissions);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_be_revoked_a_permission()
     {
         $role       = factory(Role::class)->create();
@@ -78,7 +81,7 @@ class RoleTest extends TestCase
         $this->assertCount(0, $role->fresh()->permissions);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_be_revoked_a_permission_by_slug()
     {
         $role       = factory(Role::class)->create();
@@ -93,7 +96,7 @@ class RoleTest extends TestCase
         $this->assertCount(0, $role->fresh()->permissions);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_be_revoked_multiple_permissions()
     {
         $role        = factory(Role::class)->create();
@@ -108,7 +111,7 @@ class RoleTest extends TestCase
         $this->assertCount(0, $role->fresh()->permissions);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_be_revoked_multiple_permissions_by_slugs()
     {
         $role        = factory(Role::class)->create();
@@ -123,7 +126,7 @@ class RoleTest extends TestCase
         $this->assertCount(0, $role->fresh()->permissions);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_assert_has_a_given_permission()
     {
         $role       = factory(Role::class)->create();
@@ -136,7 +139,7 @@ class RoleTest extends TestCase
         $this->assertTrue($role->fresh()->hasPermissionTo($permission->slug));
     }
 
-    /** @test */
+    #[Test]
     public function it_can_assert_does_not_have_a_given_permission()
     {
         $role       = factory(Role::class)->create();
@@ -145,7 +148,7 @@ class RoleTest extends TestCase
         $this->assertFalse($role->hasPermissionTo($permission->slug));
     }
 
-    /** @test */
+    #[Test]
     public function it_can_assert_with_no_access_flag_never_has_permission()
     {
         $permission = factory(Permission::class)->create();
@@ -158,7 +161,7 @@ class RoleTest extends TestCase
         $this->assertFalse($role->hasPermissionTo($permission->slug));
     }
 
-    /** @test */
+    #[Test]
     public function it_can_assert_with_all_access_flag_always_has_permission()
     {
         $permission = factory(Permission::class)->create();

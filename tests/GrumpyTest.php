@@ -1,22 +1,25 @@
 <?php
 
-namespace Caffeinated\Shinobi\Tests;
+declare(strict_types=1);
+
+namespace Laravel\Ronin\Tests;
 
 use Illuminate\Support\Facades\Schema;
-use Caffeinated\Shinobi\Tests\TestCase;
+use Laravel\Ronin\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 
 class GrumpyTest extends TestCase
 {
     use RefreshDatabase;
     
-    /** @test */
+    #[Test]
     public function it_returns_true()
     {
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function it_has_necessary_tables()
     {
         $this->assertTrue(Schema::hasTable('roles'));

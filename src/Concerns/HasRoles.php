@@ -1,10 +1,12 @@
 <?php
 
-namespace Caffeinated\Shinobi\Concerns;
+declare(strict_types=1);
+
+namespace Laravel\Ronin\Concerns;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Caffeinated\Shinobi\Contracts\Role;
+use Laravel\Ronin\Contracts\Role;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 trait HasRoles
@@ -159,7 +161,7 @@ trait HasRoles
     /**
      * Get the model instance responsible for permissions.
      * 
-     * @return \Caffeinated\Shinobi\Contracts\Role
+     * @return \Laravel\Ronin\Contracts\Role
      */
     protected function getRoleModel(): Role
     {

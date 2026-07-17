@@ -1,18 +1,21 @@
 <?php
 
-namespace Caffeinated\Shinobi\Tests;
+declare(strict_types=1);
 
-use Caffeinated\Shinobi\Tests\User;
-use Caffeinated\Shinobi\Models\Role;
-use Caffeinated\Shinobi\Tests\TestCase;
-use Caffeinated\Shinobi\Models\Permission;
+namespace Laravel\Ronin\Tests;
+
+use Laravel\Ronin\Tests\User;
+use Laravel\Ronin\Models\Role;
+use Laravel\Ronin\Tests\TestCase;
+use Laravel\Ronin\Models\Permission;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 
 class BladeTest extends TestCase
 {
     use RefreshDatabase;
     
-    /** @test */
+    #[Test]
     public function the_can_directive_evaluates_true_when_permissions_are_met()
     {
         $user       = factory(User::class)->create();
@@ -30,7 +33,7 @@ class BladeTest extends TestCase
         $this->assertEquals($result, 'has permission');
     }
 
-    /** @test */
+    #[Test]
     public function the_can_directive_evaluates_false_when_permissions_are_not_met()
     {
         $user = factory(User::class)->create();
@@ -42,7 +45,7 @@ class BladeTest extends TestCase
         $this->assertEquals($result, 'does not have permission');
     }
 
-    /** @test */
+    #[Test]
     public function the_cannot_directive_evaluates_true_when_permissions_are_not_met()
     {
         $user = factory(User::class)->create();
@@ -54,7 +57,7 @@ class BladeTest extends TestCase
         $this->assertEquals($result, 'does not have permission');
     }
 
-    /** @test */
+    #[Test]
     public function the_cannot_directive_evaluates_false_when_permissions_are_met()
     {
         $user       = factory(User::class)->create();
@@ -72,7 +75,7 @@ class BladeTest extends TestCase
         $this->assertEquals($result, 'has permission');
     }
 
-    /** @test */
+    #[Test]
     public function the_role_directive_evaluates_true_when_user_has_given_role()
     {
         $user = factory(User::class)->create();
@@ -90,7 +93,7 @@ class BladeTest extends TestCase
         $this->assertEquals($result, 'has admin role');
     }
 
-    /** @test */
+    #[Test]
     public function the_role_directive_evaluates_true_if_previous_evaluations_didnt_pass_when_using_else()
     {
         $user = factory(User::class)->create();
@@ -108,7 +111,7 @@ class BladeTest extends TestCase
         $this->assertEquals($result, 'has moderator role');
     }
 
-    /** @test */
+    #[Test]
     public function the_role_directive_evaluates_false_when_user_does_not_have_given_roles()
     {
         $user = factory(User::class)->create();
@@ -120,7 +123,7 @@ class BladeTest extends TestCase
         $this->assertEquals($result, 'does not have admin or moderator roles');
     }
 
-    /** @test */
+    #[Test]
     public function guests_do_not_have_roles()
     {
         $result = $this->renderView('role_directive');
@@ -128,7 +131,7 @@ class BladeTest extends TestCase
         $this->assertEquals($result, 'does not have admin or moderator roles');
     }
 
-    /** @test */
+    #[Test]
     public function the_anyrole_directive_evaluates_true_when_at_least_one_role_is_found()
     {
         $admin = factory(Role::class)->create([
@@ -147,7 +150,7 @@ class BladeTest extends TestCase
         $this->assertEquals($result, 'has either moderator or admin role');
     }
 
-    /** @test */
+    #[Test]
     public function the_anyrole_directive_evaluates_true_when_at_least_one_role_is_found_when_using_else()
     {
         $editor = factory(Role::class)->create([
@@ -166,7 +169,7 @@ class BladeTest extends TestCase
         $this->assertEquals($result, 'has either editor or contributor role');
     }
 
-    /** @test */
+    #[Test]
     public function the_anyrole_directive_evaluates_false_when_no_matching_role_is_found()
     {
         $vip = factory(Role::class)->create([
@@ -185,7 +188,7 @@ class BladeTest extends TestCase
         $this->assertEquals($result, 'does not have any of the defined roles');
     }
 
-    /** @test */
+    #[Test]
     public function the_allrole_directive_evaluates_true_when_all_roles_are_found()
     {
         $moderator = factory(Role::class)->create([
@@ -209,7 +212,7 @@ class BladeTest extends TestCase
         $this->assertEquals($result, 'has both moderator and editor roles');
     }
 
-    /** @test */
+    #[Test]
     public function the_allrole_directive_evaluates_true_when_all_roles_are_found_when_using_else()
     {
         $vip = factory(Role::class)->create([
@@ -233,7 +236,7 @@ class BladeTest extends TestCase
         $this->assertEquals($result, 'has both VIP and premium roles');
     }
 
-    /** @test */
+    #[Test]
     public function the_allroles_directive_evaluates_false_when_all_defined_roles_are_not_met()
     {
         $vip = factory(Role::class)->create([

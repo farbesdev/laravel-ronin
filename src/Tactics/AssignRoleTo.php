@@ -1,28 +1,35 @@
 <?php
 
-namespace Caffeinated\Shinobi\Tactics;
+declare(strict_types=1);
+
+namespace Laravel\Ronin\Tactics;
 
 use Illuminate\Support\Arr;
+use Illuminate\Database\Eloquent\Model;
 
 class AssignRoleTo
 {
-    /**
-     * @var array
-     */
-    protected $roles;
+    /** @var array<int, mixed> */
+    protected array $roles;
 
     /**
      * Create a new AssignRoleTo instance.
-     * 
-     * @param  array  $roles
+     *
+     * @param  mixed  ...$roles
      */
-    public function __construct(...$roles)
+    public function __construct(mixed ...$roles)
     {
         $this->roles = Arr::flatten($roles);
     }
 
-    public function to($user)
+    /**
+     * Assign the roles to the given user.
+     *
+     * @param  Model  $user
+     * @return void
+     */
+    public function to(Model $user): void
     {
-        $user->assignRoles($this->roles);
+        $user->assignRoles($this->roles); // @phpstan-ignore method.notFound
     }
 }

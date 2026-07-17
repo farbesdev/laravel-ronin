@@ -3,6 +3,24 @@ All notable changes to this package will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this package adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0] - 2026-07-16
+### Added
+- Compatibility updates for Laravel 10/11/12/13 style package setup.
+- PHPUnit 13 compatibility with modern test discovery via attributes.
+- Support for modern Composer dependency resolution for the current testbench stack.
+
+### Changed
+- Modernized service provider registration and gate/blade directive handling for safer runtime behavior.
+- Hardened role middleware to handle missing users and array-based role input more reliably.
+- Improved permission cache resolution so it works with cache drivers that do not support tags.
+- Migrated PHPUnit configuration to the current XML schema used by PHPUnit 13.
+- Renamed the package identity to Laravel Ronin for release 1.0.0.
+
+### Fixed
+- Fixed test discovery issues caused by legacy `@test` annotations under PHPUnit 13.
+- Resolved runtime issues around permission cache usage and role middleware argument normalization.
+- Restored test-suite execution in the current environment with the required Testbench compatibility dependency.
+
 ## [Unreleased]
 
 ## [5.1.0] - 2020-04-02

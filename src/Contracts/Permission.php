@@ -1,6 +1,8 @@
 <?php
 
-namespace Caffeinated\Shinobi\Contracts;
+declare(strict_types=1);
+
+namespace Laravel\Ronin\Contracts;
 
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -8,8 +10,6 @@ interface Permission
 {
     /**
      * Permissions can belong to many roles.
-     *
-     * @return Model
      */
     public function roles(): BelongsToMany;
 }

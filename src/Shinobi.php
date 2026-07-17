@@ -1,63 +1,66 @@
 <?php
 
-namespace Caffeinated\Shinobi;
+declare(strict_types=1);
 
-use Caffeinated\Shinobi\Tactics\AssignRoleTo;
-use Caffeinated\Shinobi\Tactics\GivePermissionTo;
-use Caffeinated\Shinobi\Tactics\RevokePermissionFrom;
+namespace Laravel\Ronin;
+
+use Laravel\Ronin\Models\Role;
+use Laravel\Ronin\Models\Permission;
+use Laravel\Ronin\Tactics\AssignRoleTo;
+use Laravel\Ronin\Tactics\GivePermissionTo;
+use Laravel\Ronin\Tactics\RevokePermissionFrom;
 
 class Shinobi
 {
     /**
      * Fetch an instance of the Role model.
-     * 
-     * @return Role
      */
-    public function role()
+    public function role(): Role
     {
-        return app()->make(config('shinobi.models.role'));
+        /** @var Role $model */
+        $model = app()->make(config('shinobi.models.role'));
+
+        return $model;
     }
 
     /**
      * Fetch an instance of the Permission model.
-     * 
-     * @return Permission
      */
-    public function permission()
+    public function permission(): Permission
     {
-        return app()->make(config('shinobi.models.permission'));
+        /** @var Permission $model */
+        $model = app()->make(config('shinobi.models.permission'));
+
+        return $model;
     }
 
     /**
      * Assign roles to a user.
-     * 
-     * @param  string|array  $roles
-     * @return \Caffeinated\Shinobi\Tactic\AssignRoleTo
+     *
+     * @param  mixed  ...$roles
      */
-    public function assign($roles): AssignRoleTo
+    public function assign(mixed ...$roles): AssignRoleTo
     {
-        return new AssignRoleTo($roles);
+        return new AssignRoleTo(...$roles);
     }
-    
+
     /**
-     * Give permissions to a user or role
-     * 
-     * @param  string|array  $permissions
-     * @return \Caffeinated\Shinobi\Tactic\GivePermissionTo
+     * Give permissions to a user or role.
+     *
+     * @param  mixed  ...$permissions
      */
-    public function give($permissions): GivePermissionTo
+    public function give(mixed ...$permissions): GivePermissionTo
     {
-        return new GivePermissionTo($permissions);
+        return new GivePermissionTo(...$permissions);
     }
-    
+
     /**
-     * Revoke permissions from a user or role
-     * 
-     * @param  string|array  $permissions
-     * @return \Caffeinated\Shinobi\Tactic\RevokePermissionFrom
+     * Revoke permissions from a user or role.
+     *
+     * @param  mixed  ...$permissions
      */
-    public function revoke($permissions): RevokePermissionFrom
+    public function revoke(mixed ...$permissions): RevokePermissionFrom
     {
-        return new RevokePermissionFrom($permissions);
+        return new RevokePermissionFrom(...$permissions);
     }
 }

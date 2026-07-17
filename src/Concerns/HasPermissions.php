@@ -1,19 +1,20 @@
 <?php
 
-namespace Caffeinated\Shinobi\Concerns;
+declare(strict_types=1);
+
+namespace Laravel\Ronin\Concerns;
 
 use Illuminate\Support\Arr;
-use Caffeinated\Shinobi\Facades\Shinobi;
-use Caffeinated\Shinobi\Contracts\Permission;
+use Illuminate\Database\Eloquent\Model;
+use Laravel\Ronin\Facades\Shinobi;
+use Laravel\Ronin\Contracts\Permission;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Caffeinated\Shinobi\Exceptions\PermissionNotFoundException;
+use Laravel\Ronin\Exceptions\PermissionNotFoundException;
 
 trait HasPermissions
 {
     /**
-     * Users can have many permissions
-     *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function permissions(): BelongsToMany
     {
@@ -31,7 +32,10 @@ trait HasPermissions
     public function hasPermissionTo($permission): bool
     {
         // Check role flags
-        if ((method_exists($this, 'hasPermissionRoleFlags') and $this->hasPermissionRoleFlags())) {
+        if (method_exists($this, 'hasPermissionRoleFlags') 
+            && $this->hasPermissionRoleFlags() 
+            && method_exists($this, 'hasPermissionThroughRoleFlag')
+        ) {
             return $this->hasPermissionThroughRoleFlag();
         }
 
@@ -116,18 +120,19 @@ trait HasPermissions
     /**
      * Get the specified permissions.
      * 
-     * @param  array  $permissions
-     * @return Permission
+     * @param  array<int, mixed>  $collection
+     * @return array<int, int>
      */
-    protected function getPermissions(array $collection)
+    protected function getPermissions(array $collection): array
     {
         return array_map(function($permission) {
             $model = $this->getPermissionModel();
 
-            if ($permission instanceof Permission) {
-                return $permission->id;
+            if ($permission instanceof Model) {
+                return (int) $permission->getKey();
             }
 
+            // @phpstan-ignore-next-line
             $permission = $model->where('slug', $permission)->first();
 
             return $permission->id;
@@ -137,7 +142,7 @@ trait HasPermissions
     /**
      * Checks if the user has the given permission assigned.
      * 
-     * @param  \Caffeinated\Shinobi\Models\Permission  $permission
+     * @param  \Laravel\Ronin\Models\Permission  $permission
      * @return boolean
      */
     protected function hasPermission($permission): bool
@@ -154,20 +159,34 @@ trait HasPermissions
     /**
      * Get the model instance responsible for permissions.
      * 
-     * @return \Caffeinated\Shinobi\Contracts\Permission|\Illuminate\Database\Eloquent\Collection
+     * @return mixed
      */
-    protected function getPermissionModel()
+    protected function getPermissionModel(): mixed
     {
-        if (config('shinobi.cache.enabled')) {
-            return cache()->tags(config('shinobi.cache.tag'))->remember(
+        $permissionModel = app()->make(config('shinobi.models.permission'));
+
+        if (! config('shinobi.cache.enabled')) {
+            return $permissionModel;
+        }
+
+        $cacheStore = cache()->store();
+
+        if (method_exists($cacheStore, 'tags')) {
+            return $cacheStore->tags(config('shinobi.cache.tag'))->remember(
                 'permissions',
                 config('shinobi.cache.length'),
-                function() {
-                    return app()->make(config('shinobi.models.permission'))->get();
+                function () use ($permissionModel) {
+                    return $permissionModel->get();
                 }
             );
         }
 
-        return app()->make(config('shinobi.models.permission'));
+        return $cacheStore->remember(
+            'permissions',
+            config('shinobi.cache.length'),
+            function () use ($permissionModel) {
+                return $permissionModel->get();
+            }
+        );
     }
 }

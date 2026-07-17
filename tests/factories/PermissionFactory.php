@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Str;
-use Caffeinated\Shinobi\Models\Permission;
+use Laravel\Ronin\Models\Permission;
 
 $factory->define(Permission::class, function(Faker\Generator $faker) {
     $name = $faker->unique()->sentence(2);

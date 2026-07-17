@@ -1,6 +1,6 @@
 <?php
 
-use Caffeinated\Shinobi\Tests\User;
+use Laravel\Ronin\Tests\User;
 
 $factory->define(User::class, function(Faker\Generator $faker) {
     return [

@@ -1,28 +1,40 @@
 <?php
 
-namespace Caffeinated\Shinobi\Models;
+declare(strict_types=1);
+
+namespace Laravel\Ronin\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Caffeinated\Shinobi\Concerns\HasPermissions;
-use Caffeinated\Shinobi\Contracts\Role as RoleContract;
+use Laravel\Ronin\Concerns\HasPermissions;
+use Laravel\Ronin\Contracts\Role as RoleContract;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property string $slug
+ * @property string|null $special
+ * @property string|null $description
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
+ *
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Ronin\Models\Permission> $permissions
+ */
 class Role extends Model implements RoleContract
 {
     use HasPermissions;
-    
+
     /**
      * The attributes that are fillable via mass assignment.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $fillable = ['name', 'slug', 'description', 'special'];
 
     /**
      * Create a new Role instance.
-     * 
-     * @param  array  $attributes
-     * @return void
+     *
+     * @param  array<string, mixed>  $attributes
      */
     public function __construct(array $attributes = [])
     {
@@ -33,8 +45,6 @@ class Role extends Model implements RoleContract
 
     /**
      * Roles can belong to many users.
-     *
-     * @return Model
      */
     public function users(): BelongsToMany
     {
@@ -43,8 +53,6 @@ class Role extends Model implements RoleContract
 
     /**
      * Determine if role has permission flags.
-     * 
-     * @return bool
      */
     public function hasPermissionFlags(): bool
     {
@@ -54,8 +62,6 @@ class Role extends Model implements RoleContract
     /**
      * Determine if the requested permission is permitted or denied
      * through a special role flag.
-     * 
-     * @return bool
      */
     public function hasPermissionThroughFlag(): bool
     {

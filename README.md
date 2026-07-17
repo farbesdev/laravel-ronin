@@ -11,12 +11,12 @@ Kai
 
 ---
 
-# Caffeinated Shinobi
-[![Source](https://img.shields.io/badge/source-caffeinated/shinobi-blue.svg?style=flat-square)](https://github.com/caffeinated/shinobi)
-[![Latest Stable Version](https://poser.pugx.org/caffeinated/shinobi/v/stable?format=flat-square)](https://packagist.org/packages/caffeinated/shinobi)
+# Laravel Ronin
+[![Source](https://img.shields.io/badge/source-laravel-ronin/laravel-ronin-blue.svg?style=flat-square)](https://github.com/laravel-ronin/laravel-ronin)
+[![Latest Stable Version](https://poser.pugx.org/laravel-ronin/laravel-ronin/v/stable?format=flat-square)](https://packagist.org/packages/laravel-ronin/laravel-ronin)
 [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://tldrlegal.com/license/mit-license)
-[![Total Downloads](https://img.shields.io/packagist/dt/caffeinated/shinobi.svg?style=flat-square)](https://packagist.org/packages/caffeinated/shinobi)
-[![Travis (.org)](https://img.shields.io/travis/caffeinated/shinobi.svg?style=flat-square)](https://travis-ci.org/caffeinated/shinobi)
+[![Total Downloads](https://img.shields.io/packagist/dt/laravel-ronin/laravel-ronin.svg?style=flat-square)](https://packagist.org/packages/laravel-ronin/laravel-ronin)
+[![Travis (.org)](https://img.shields.io/travis/laravel-ronin/laravel-ronin.svg?style=flat-square)](https://travis-ci.org/laravel-ronin/laravel-ronin)
 
 A simple and light-weight role-based permissions system for Laravel's Authorization Gate system. Originally developed for [FusionCMS](https://github.com/fusioncms/fusioncms), an open source content management system.
 
@@ -26,20 +26,20 @@ A simple and light-weight role-based permissions system for Laravel's Authorizat
 - Every role can have one of two special flags, `all-access` and `no-access`
 
 ## Documentation
-You will find user friendly and updated documentation on the [Caffeinated website](https://caffeinatedpackages.com/guide/packages/shinobi.html).
+You will find user friendly and updated documentation on the [Laravel Ronin website](https://caffeinatedpackages.com/guide/packages/shinobi.html).
 
 ## Installation
 Simply install the package through Composer. From here the package will automatically register its service provider and `Shinobi` facade.
 
 ```
-composer require caffeinated/shinobi
+composer require laravel-ronin/laravel-ronin
 ```
 
 ### Config
 To publish the config file, run the following:
 
 ```
-php artisan vendor:publish --provider="Caffeinated\Shinobi\ShinobiServiceProvider" --tag="config"
+php artisan vendor:publish --provider="Laravel\Ronin\ShinobiServiceProvider" --tag="config"
 ```
 
 ## Changelog

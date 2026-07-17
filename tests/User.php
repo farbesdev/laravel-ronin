@@ -1,11 +1,13 @@
 <?php
 
-namespace Caffeinated\Shinobi\Tests;
+declare(strict_types=1);
+
+namespace Laravel\Ronin\Tests;
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\Access\Authorizable;
-use Caffeinated\Shinobi\Concerns\HasRolesAndPermissions;
+use Laravel\Ronin\Concerns\HasRolesAndPermissions;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 

@@ -1,6 +1,8 @@
 <?php
 
-namespace Caffeinated\Shinobi\Exceptions;
+declare(strict_types=1);
+
+namespace Laravel\Ronin\Exceptions;
 
 use Exception;
 

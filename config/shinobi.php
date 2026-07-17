@@ -52,8 +52,8 @@ return [
         | permissions to roles and users, and assigning roles to users.
         */
 
-        'role' => Caffeinated\Shinobi\Models\Role::class,
-        'permission' => Caffeinated\Shinobi\Models\Permission::class,
+        'role' => Laravel\Ronin\Models\Role::class,
+        'permission' => Laravel\Ronin\Models\Permission::class,
 
     ],
 

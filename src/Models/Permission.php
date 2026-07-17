@@ -1,28 +1,39 @@
 <?php
 
-namespace Caffeinated\Shinobi\Models;
+declare(strict_types=1);
+
+namespace Laravel\Ronin\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Caffeinated\Shinobi\Concerns\RefreshesPermissionCache;
-use Caffeinated\Shinobi\Contracts\Permission as PermissionContract;
+use Laravel\Ronin\Concerns\RefreshesPermissionCache;
+use Laravel\Ronin\Contracts\Permission as PermissionContract;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property string $slug
+ * @property string|null $description
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
+ *
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Ronin\Models\Role> $roles
+ */
 class Permission extends Model implements PermissionContract
 {
     use RefreshesPermissionCache;
-    
+
     /**
      * The attributes that are fillable via mass assignment.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $fillable = ['name', 'slug', 'description'];
 
     /**
      * Create a new Permission instance.
-     * 
-     * @param  array  $attributes
-     * @return void
+     *
+     * @param  array<string, mixed>  $attributes
      */
     public function __construct(array $attributes = [])
     {
@@ -33,8 +44,6 @@ class Permission extends Model implements PermissionContract
 
     /**
      * Permissions can belong to many roles.
-     *
-     * @return Model
      */
     public function roles(): BelongsToMany
     {

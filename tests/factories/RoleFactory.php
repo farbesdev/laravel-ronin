@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Str;
-use Caffeinated\Shinobi\Models\Role;
+use Laravel\Ronin\Models\Role;
 
 $factory->define(Role::class, function(Faker\Generator $faker) {
     $name = $faker->unique()->jobTitle;

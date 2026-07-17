@@ -1,39 +1,70 @@
 {
-    "name": "caffeinated/shinobi",
-    "description": "Laravel Roles and Permissions",
-    "keywords": ["shinobi", "roles", "permissions", "auth", "laravel", "caffeinated"],
+    "name": "farbesdev/laravel-ronin",
+    "version": "1.0.0",
+    "description": "Laravel roles and permissions — maintained fork of caffeinated/shinobi",
+    "keywords": [
+        "ronin",
+        "roles",
+        "permissions",
+        "auth",
+        "laravel",
+        "laravel-ronin"
+    ],
     "license": "MIT",
-    "authors": [{
-        "name": "Shea Lewis",
-        "email": "shea.lewis89@gmail.com"
-    }],
+    "authors": [
+        {
+            "name": "Fredy Rojas",
+            "email": "farojas851@gmail.com"
+        }
+    ],
     "require": {
-        "php": "^7.2",
-        "illuminate/support": "^6.0|^7.0"
+        "php": "^8.2",
+        "illuminate/support": "^10.0|^11.0|^12.0|^13.0"
     },
     "autoload": {
         "psr-4": {
-            "Caffeinated\\Shinobi\\": "src/"
+            "Laravel\\Ronin\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Caffeinated\\Shinobi\\Tests\\": "tests/"
+            "Laravel\\Ronin\\Tests\\": "tests/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Caffeinated\\Shinobi\\ShinobiServiceProvider"
+                "Laravel\\Ronin\\ShinobiServiceProvider"
             ],
             "aliases": {
-                "Shinobi": "Caffeinated\\Shinobi\\Facades\\Shinobi"
+                "Shinobi": "Laravel\\Ronin\\Facades\\Shinobi"
             }
         }
     },
+    "config": {
+        "sort-packages": true
+    },
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "require-dev": {
-        "orchestra/testbench": "^3.7",
-        "doctrine/dbal": "^2.10@dev"
+        "doctrine/dbal": "^3.0",
+        "larastan/larastan": "^3.10",
+        "laravel/legacy-factories": "^1.0@dev",
+        "orchestra/testbench": "^8.0|^9.0|^10.0",
+        "phpunit/php-code-coverage": "^14.1.10",
+        "phpunit/phpunit": "^11.0|^12.0|^13.0"
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "analyse": "vendor/bin/phpstan analyse --level=8",
+        "ci": [
+            "@test",
+            "@analyse"
+        ]
+    },
+    "scripts-descriptions": {
+        "test": "Ejecuta la suite de pruebas PHPUnit",
+        "analyse": "Ejecuta análisis estático con Larastan nivel 8",
+        "ci": "Ejecuta tests + análisis estático (pipeline CI)"
     }
 }

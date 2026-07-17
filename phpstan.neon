@@ -1,0 +1,27 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    level: 9
+
+    paths:
+        - src
+
+    excludePaths:
+        - vendor
+        - tests
+        - config
+        - migrations
+        - build
+
+    inferPrivatePropertyTypeFromConstructor: true
+    treatPhpDocTypesAsCertain: false
+
+    ignoreErrors:
+        - '#Method .* return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types#'
+        - '#Unable to resolve the template type TRelatedModel in call to method Illuminate\\Database\\Eloquent\\Model::belongsToMany\(\)#'
+        - '#PHPDoc type array<int, string> of property Laravel\\Ronin\\Models\\.*::\$fillable is not covariant with PHPDoc type list<string> of overridden property Illuminate\\Database\\Eloquent\\Model::\$fillable#'
+        - '#Method .* has parameter .* with no value type specified in iterable type array#'
+        - '#Method .* has no value type specified in iterable type array#'
+        - '#Trait Laravel\\Ronin\\Concerns\\.* is used zero times and is not analysed\.#'
+        - '#Call to function method_exists\(\) with \$this\(Laravel\\Ronin\\Models\\Role\) and .hasPermissionFlags. will always evaluate to true\.#'

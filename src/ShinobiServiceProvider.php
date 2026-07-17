@@ -1,11 +1,12 @@
 <?php
 
-namespace Caffeinated\Shinobi;
+declare(strict_types=1);
+
+namespace Laravel\Ronin;
 
 use Exception;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Auth\Access\Authorizable;
 
@@ -14,14 +15,16 @@ class ShinobiServiceProvider extends ServiceProvider
     /**
      * Boot the service provider.
      *
-     * @return null
+     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        $this->publishConfig();
-        $this->publishMigrations();
-        $this->loadMigrations();
+        if ($this->app->runningInConsole()) {
+            $this->publishConfig();
+            $this->publishMigrations();
+        }
 
+        $this->loadMigrations();
         $this->registerGates();
         $this->registerBladeDirectives();
     }
@@ -31,16 +34,14 @@ class ShinobiServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->mergeConfigFrom(
             __DIR__.'/../config/shinobi.php', 'shinobi'
         );
 
-        $this->app->singleton('shinobi', function ($app) {
-            $auth = $app->make('Illuminate\Contracts\Auth\Guard');
-
-            return new \Caffeinated\Shinobi\Shinobi($auth);
+        $this->app->singleton('shinobi', function () {
+            return new \Laravel\Ronin\Shinobi();
         });
     }
 
@@ -49,15 +50,17 @@ class ShinobiServiceProvider extends ServiceProvider
      * 
      * @return void
      */
-    protected function registerGates()
+    protected function registerGates(): void
     {
-        Gate::before(function(Authorizable $user, String $permission) {
+        Gate::before(function (Authorizable $user, string $permission): bool|null {
+            if (! method_exists($user, 'hasPermissionTo')) {
+                return null;
+            }
+
             try {
-                if (method_exists($user, 'hasPermissionTo')) {
-                    return $user->hasPermissionTo($permission) ?: null;
-                }
-            } catch (Exception $e) {
-                // 
+                return (bool) $user->hasPermissionTo($permission);
+            } catch (Exception) {
+                return null;
             }
         });
     }
@@ -67,18 +70,30 @@ class ShinobiServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function registerBladeDirectives()
+    protected function registerBladeDirectives(): void
     {
-        Blade::if('role', function($role) {
-            return auth()->user() and auth()->user()->hasRole($role);
+        Blade::if('role', function (string $role): bool {
+            $user = auth()->user();
+
+            return $user instanceof Authorizable
+                && method_exists($user, 'hasRole')
+                && $user->hasRole($role);
         });
 
-        Blade::if('anyrole', function(...$roles) {
-            return auth()->user() and auth()->user()->hasAnyRole(...$roles);
+        Blade::if('anyrole', function (mixed ...$roles): bool {
+            $user = auth()->user();
+
+            return $user instanceof Authorizable
+                && method_exists($user, 'hasAnyRole')
+                && $user->hasAnyRole(...$roles);
         });
 
-        Blade::if('allroles', function(...$roles) {
-            return auth()->user() and auth()->user()->hasAllRoles(...$roles);
+        Blade::if('allroles', function (mixed ...$roles): bool {
+            $user = auth()->user();
+
+            return $user instanceof Authorizable
+                && method_exists($user, 'hasAllRoles')
+                && $user->hasAllRoles(...$roles);
         });
     }
 
@@ -87,7 +102,7 @@ class ShinobiServiceProvider extends ServiceProvider
      * 
      * @return void
      */
-    protected function publishConfig()
+    protected function publishConfig(): void
     {
         $this->publishes([
             __DIR__.'/../config/shinobi.php' => config_path('shinobi.php'),
@@ -99,7 +114,7 @@ class ShinobiServiceProvider extends ServiceProvider
      * 
      * @return void
      */
-    protected function publishMigrations()
+    protected function publishMigrations(): void
     {
         $this->publishes([
             __DIR__.'/../migrations/' => database_path('migrations'),
@@ -111,7 +126,7 @@ class ShinobiServiceProvider extends ServiceProvider
      * 
      * @return void
      */
-    protected function loadMigrations()
+    protected function loadMigrations(): void
     {
         if (config('shinobi.migrate', true)) {
             $this->loadMigrationsFrom(__DIR__.'/../migrations');
