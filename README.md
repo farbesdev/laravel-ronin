@@ -1,6 +1,9 @@
 # Laravel Ronin
-[![Source](https://img.shields.io/badge/source-farbesdev/laravel--ronin-blue.svg?style=flat-square)](https://github.com/farojas85/shinobi)
+[![Source](https://img.shields.io/badge/source-farbesdev/laravel--ronin-blue.svg?style=flat-square)](https://github.com/farbesdev/laravel-ronin)
 [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://tldrlegal.com/license/mit-license)
+
+> [!NOTE]
+> **Aviso de Origen**: Este paquete es un fork independiente, completamente rediseñado y modernizado que toma como base el descontinuado paquete [caffeinated/shinobi](https://github.com/caffeinated/shinobi) creado por Shea Lewis. Agradecemos al autor original por sentar las bases de este sistema.
 
 Un sistema de permisos basado en roles simple, ligero y altamente eficiente para el Authorization Gate nativo de Laravel. Totalmente optimizado para entornos de alta concurrencia mediante el uso de caché híbrida en memoria y Redis.
 
