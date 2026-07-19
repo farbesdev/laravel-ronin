@@ -1,22 +1,22 @@
-# 🎯 Skill: Conventional Commits y Git Flow (Mensajes de Commit Estandarizados)
+# 🎯 Skill: Conventional Commits, Git Flow, Git Tags y Git Releases (Estandarización de Commits y Lanzamientos)
 
-**Cuándo usar:** Utilice esta habilidad siempre que la tarea requiera sugerir, generar o validar un mensaje de commit en Git, o bien al trabajar bajo la estructura de ramas del estándar Git Flow.
+**Cuándo usar:** Utilice esta habilidad siempre que la tarea requiera sugerir, generar o validar un mensaje de commit en Git, trabajar bajo la estructura de ramas de Git Flow, o gestionar etiquetas (git tags) y lanzamientos (git releases).
 
-**Contexto que provee:** Convenciones de nombres de ramas, reglas de nomenclatura, mapeo de tipos de commits, emojis oficiales en español y la relación directa con el modelo de desarrollo Git Flow.
+**Contexto que provee:** Convenciones de nombres de ramas, reglas de nomenclatura, mapeo de tipos de commits, emojis oficiales, redacción en inglés de commits, versionado semántico (SemVer), creación de git tags y preparación de notas de release (git releases).
 
 ---
 
 ## 🏗️ Estructura Estándar del Commit
 
-Todos los mensajes de commit generados por la IA en este proyecto deben seguir estrictamente el estándar **Conventional Commits 1.0.0**, adaptado con iconos (emojis) y redactado en **español**:
+Todos los mensajes de commit generados por la IA en este proyecto deben seguir estrictamente el estándar **Conventional Commits 1.0.0**, adaptado con iconos (emojis) y redactado **100% en inglés**:
 
 ```text
-<tipo>(<alcance>): <emoji> <título breve en infinitivo/imperativo y en minúsculas>
+<tipo>(<alcance>): <emoji> <short description in lowercase, imperative/present tense>
 
-- [Descripción detallada de cada uno de los cambios por guiones en español]
-- [Explicación clara del "qué" y el "por qué" del cambio, manteniendo líneas de máximo 96 caracteres]
+- [Detailed description of changes in English]
+- [Clear explanation of the "what" and "why" of the change, max 96 characters per line, in English]
 
-[Pie de página con BREAKING CHANGES o referencias a tickets/issues]
+[Footer with BREAKING CHANGES or references to tickets/issues]
 ```
 
 ---
@@ -28,13 +28,13 @@ Todos los mensajes de commit generados por la IA en este proyecto deben seguir e
 | **`feat`** | ✨ | Nueva característica o funcionalidad para el usuario. |
 | **`fix`** | 🐛 | Corrección de un error o fallo (bug). |
 | **`docs`** | 📝 | Cambios o adiciones en la documentación del sistema. |
-| **`style`** | 💄 | Cambios de formato, estilos (CSS), espaciados (sin afectar la lógica del código). |
+| **`style`** | 💄 | Cambios de formato, estilos (CSS), espaciados (sin afectar la lógica). |
 | **`refactor`** | ♻️ | Reestructuración de código de producción que no corrige bugs ni añade características. |
 | **`perf`** | ⚡ | Cambios de código orientados a mejorar el rendimiento o velocidad. |
-| **`test`** | 🧪 | Añadir o corregir pruebas unitarias o de integración (Pest/Vitest). |
-| **`build`** | 📦 | Cambios en el sistema de construcción de la aplicación o dependencias externas (npm, composer). |
-| **`ci`** | 🚀 | Modificación en la configuración o scripts de CI/CD (GitHub Actions, Dockerfiles de producción). |
-| **`chore`** | 🔧 | Tareas de mantenimiento general, actualizaciones de configuración o refactorización no productiva. |
+| **`test`** | 🧪 | Añadir o corregir pruebas unitarias o de integración. |
+| **`build`** | 📦 | Cambios en el sistema de construcción o dependencias externas (npm, composer). |
+| **`ci`** | 🚀 | Modificación en la configuración o scripts de CI/CD (GitHub Actions, etc.). |
+| **`chore`** | 🔧 | Tareas de mantenimiento general o configuraciones secundarias. |
 | **`revert`** | ⏪ | Reversión de un commit previo. |
 
 ---
@@ -57,28 +57,65 @@ Para identificar fácilmente a qué componente del monorepo pertenece el cambio,
 
 ## 🌊 Relación de Commits y Ramas con Git Flow
 
-Para garantizar la coherencia en el flujo de integración continua, cada tipo de rama dentro de Git Flow requiere un formato y tipo de commit específico:
+Para garantizar la coherencia en el flujo de integración continua, cada tipo de rama dentro de Git Flow requiere un formato y tipo de commit específico (siempre 100% en inglés):
 
 ### 1. Ramas de Funcionalidad (`feature/*`)
 *   **Origen:** `develop` | **Destino:** `develop`
 *   **Commits sugeridos:** Utilizar mayormente el tipo `feat` para la implementación principal.
-*   **Ejemplo de título:** `feat(api-core): ✨ implementar pasarela de pagos stripe`
+*   **Ejemplo de título:** `feat(api-core): ✨ implement stripe payment gateway`
 
 ### 2. Ramas de Corrección (`bugfix/*`)
 *   **Origen:** `develop` | **Destino:** `develop`
 *   **Commits sugeridos:** Utilizar el tipo `fix` para corregir errores detectados en desarrollo.
-*   **Ejemplo de título:** `fix(saas-portal): 🐛 corregir redirección del login en safari`
+*   **Ejemplo de título:** `fix(saas-portal): 🐛 fix login redirection on safari`
 
 ### 3. Ramas de Corrección Crítica (`hotfix/*`)
 *   **Origen:** `main` | **Destino:** `main` y `develop`
 *   **Commits sugeridos:** Utilizar el tipo `fix` y acompañar con un incremento de versión parche en el pie de página (ej. `v1.0.1`).
-*   **Ejemplo de título:** `fix(api-sunat): 🐛 resolver timeout en firma digital sunat`
+*   **Ejemplo de título:** `fix(api-sunat): 🐛 resolve timeout in sunat digital signature`
 
 ### 4. Ramas de Lanzamiento (`release/*`)
 *   **Origen:** `develop` | **Destino:** `main` y `develop`
 *   **Commits sugeridos:** Utilizar el tipo `chore` o `build` para preparar la compilación final y actualizar las versiones.
-*   **Ejemplo de título:** `chore(monorepo): 🔧 preparar lanzamiento de versión v1.1.0`
+*   **Ejemplo de título:** `chore(monorepo): 🔧 prepare release v1.1.0`
 
 ### 5. Ramas de Soporte (`support/*`)
 *   **Origen:** `main` o commits históricos específicos.
 *   **Commits sugeridos:** Según corresponda (`feat`, `fix`), limitando los cambios al soporte de versiones antiguas.
+
+---
+
+## 🏷️ Gestión de Git Tags y Git Releases
+
+Como experto en etiquetas y publicaciones de Git, se siguen estas pautas estrictas:
+
+### 1. Versionado Semántico (SemVer)
+Se utiliza el esquema `vMAJOR.MINOR.PATCH` (ej. `v1.2.3`):
+*   **`MAJOR`**: Cambios incompatibles con versiones anteriores (Breaking Changes).
+*   **`MINOR`**: Nueva funcionalidad retrocompatible.
+*   **`PATCH`**: Corrección de errores retrocompatible.
+
+### 2. Creación de Git Tags
+Las etiquetas de versión deben crearse como anotadas (`annotated tags`) para registrar la fecha, autor y un mensaje descriptivo:
+```bash
+git tag -a v1.0.0 -m "Release v1.0.0"
+git push origin v1.0.0
+```
+
+### 3. Formato de Git Releases (Notas de Lanzamiento)
+Al publicar una release (ej. en GitHub), se genera un registro de cambios claro clasificado por categorías y redactado 100% en inglés:
+```markdown
+# Release v1.0.0 (YYYY-MM-DD)
+
+## ✨ Features
+- **scope**: Short description of new feature in English.
+
+## 🐛 Bug Fixes
+- **scope**: Short description of fix in English.
+
+## 🔧 Chore & Maintenance
+- **scope**: Maintenance details in English.
+
+## ⚠️ Breaking Changes
+- Detailed description of breaking changes and migration steps if applicable.
+```
