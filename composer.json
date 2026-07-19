@@ -1,6 +1,6 @@
 {
     "name": "farbesdev/laravel-ronin",
-    "description": "Un paquete simple y flexible para la gestión de roles y permisos en Laravel. Controla el acceso a rutas y vistas de forma eficiente mediante un sistema basado en ACL.",
+    "description": "A simple and flexible package for managing roles and permissions in Laravel. It efficiently controls access to routes and views using an ACL-based system. ",
     "keywords": [
         "ronin",
         "roles",
